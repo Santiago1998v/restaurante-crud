@@ -18,7 +18,7 @@ db.run(`
   CREATE TABLE IF NOT EXISTS categorias (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre TEXT NOT NULL,
-    descripcion TEXT
+    tipo TEXT
   );
 `);
 
@@ -28,6 +28,7 @@ db.run(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre TEXT NOT NULL,
     precio REAL NOT NULL,
+    descripcion TEXT NOT NULL,
     categoria_id INTEGER NOT NULL,
     FOREIGN KEY (categoria_id) REFERENCES categorias(id)
   );
@@ -46,7 +47,7 @@ db.get(`SELECT COUNT(*) AS count FROM categorias`, (err, row) => {
     ];
 
     const insert = db.prepare(
-      "INSERT INTO categorias (nombre, descripcion) VALUES (?, ?)"
+      "INSERT INTO categorias (nombre, tipo) VALUES (?, ?)"
     );
 
     categorias.forEach((cat) => insert.run(cat[0], cat[1]));
