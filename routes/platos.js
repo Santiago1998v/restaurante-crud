@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../database/db");
 
-// Obtener todos los platos
+//obtener todos los platos GET
 router.get("/", (req, res) => {
   db.all("SELECT * FROM platos", [], (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });
@@ -23,40 +23,40 @@ router.get("/:id", (req, res) => {
 
 //crear un plato POST
 router.post("/", (req, res) => {
-  const { nombre, descripcion } = req.body;
+  const { nombre, precio, descripcion, categoria_id } = req.body;
 
   db.run(
-    "INSERT INTO platos (nombre, precio, descripcion, categoria_id) VALUES (?, ?)",
-    [nombre, descripcion],
+    "INSERT INTO platos (nombre, precio, descripcion, categoria_id) VALUES (?, ?, ?, ?)",
+    [nombre, precio, descripcion, categoria_id],
     function (err) {
       if (err) return res.status(500).json({ error: err.message });
-      res.json({ message: "Categoría creada", id: this.lastID });
+      res.json({ message: "Plato creado", id: this.lastID });
     }
   );
 });
 
-//actualizar categoría PUT
+//actualizar un plato PUT
 router.put("/:id", (req, res) => {
   const id = req.params.id;
-  const { nombre, descripcion } = req.body;
+  const { nombre, precio, descripcion, categoria_id } = req.body;
 
   db.run(
-    "UPDATE categorias SET nombre=?, descripcion=? WHERE id=?",
-    [nombre, descripcion, id],
+    "UPDATE platos SET nombre = ?, precio = ?, descripcion = ?, categoria_id = ? WHERE id = ?",
+    [nombre, precio, descripcion, categoria_id, id],
     function (err) {
       if (err) return res.status(500).json({ error: err.message });
-      res.json({ message: "Categoría actualizada" });
+      res.json({ message: "Plato actualizado" });
     }
   );
 });
 
-//eliminar categoría DELETE
+//eliminar un plato DELETE
 router.delete("/:id", (req, res) => {
   const id = req.params.id;
 
-  db.run("DELETE FROM categorias WHERE id = ?", [id], function (err) {
+  db.run("DELETE FROM platos WHERE id = ?", [id], function (err) {
     if (err) return res.status(500).json({ error: err.message });
-    res.json({ message: "Categoría eliminada" });
+    res.json({ message: "Plato eliminado" });
   });
 });
 
