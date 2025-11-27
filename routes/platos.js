@@ -23,11 +23,19 @@ router.get("/:id", (req, res) => {
 
 //crear un plato POST
 router.post("/", (req, res) => {
+<<<<<<< HEAD
   const { nombre, precio, categoria_id } = req.body;
 
   db.run(
     "INSERT INTO platos (nombre, precio, categoria_id) VALUES (?, ?, ?)",
     [nombre, precio, categoria_id],
+=======
+  const { nombre, precio, descripcion, categoria_id } = req.body;
+
+  db.run(
+    "INSERT INTO platos (nombre, precio, descripcion, categoria_id) VALUES (?, ?, ?, ?)",
+    [nombre, precio, descripcion, categoria_id],
+>>>>>>> cd9cc171380fd7b39249f7ffaeb2a3b99e24a1f2
     function (err) {
       if (err) return res.status(500).json({ error: err.message });
       res.json({ message: "Plato creado", id: this.lastID });
@@ -38,11 +46,19 @@ router.post("/", (req, res) => {
 //actualizar un plato PUT
 router.put("/:id", (req, res) => {
   const id = req.params.id;
+<<<<<<< HEAD
   const { nombre, precio, categoria_id } = req.body;
 
   db.run(
     "UPDATE platos SET nombre = ?, precio = ?, categoria_id = ? WHERE id = ?",
     [nombre, precio, categoria_id, id],
+=======
+  const { nombre, precio, descripcion, categoria_id } = req.body;
+
+  db.run(
+    "UPDATE platos SET nombre = ?, precio = ?, descripcion = ?, categoria_id = ? WHERE id = ?",
+    [nombre, precio, descripcion, categoria_id, id],
+>>>>>>> cd9cc171380fd7b39249f7ffaeb2a3b99e24a1f2
     function (err) {
       if (err) return res.status(500).json({ error: err.message });
       res.json({ message: "Plato actualizado" });

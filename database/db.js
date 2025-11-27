@@ -28,6 +28,7 @@ db.run(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nombre TEXT NOT NULL,
     precio REAL NOT NULL,
+   
     categoria_id INTEGER NOT NULL,
     FOREIGN KEY (categoria_id) REFERENCES categorias(id)
   );
@@ -51,6 +52,26 @@ db.get(`SELECT COUNT(*) AS count FROM categorias`, (err, row) => {
 
     categorias.forEach((cat) => insert.run(cat[0], cat[1]));
     insert.finalize(() => console.log("Categorías iniciales insertadas."));
+  }
+});
+//platos iniciales si no existen
+db.get(`SELECT COUNT(*) AS count FROM platos`, (err, row) => {
+  if (err) {
+    console.error("Error al contar platos:", err.message);
+  } else if (row.count === 0) {
+    const platos = [
+      ["Ensalada César", 18000, 1],
+      ["Sancocho de Pollo", 22000, 2],
+      ["Torta de Chocolate", 15000, 3],
+      ["Limonada Natural", 8000, 4],
+    ];
+
+    const insert = db.prepare(
+      "INSERT INTO platos (nombre, precio, categoria_id) VALUES (?, ?, ?)"
+    );
+
+    platos.forEach((p) => insert.run(p[0], p[1], p[2]));
+    insert.finalize(() => console.log("Platos iniciales insertados."));
   }
 });
 

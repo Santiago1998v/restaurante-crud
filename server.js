@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -85,4 +86,20 @@ const PORT = process.env.PORT || 3000;
 // Iniciar servidor
 app.listen(PORT, () => {
   console.log("Servidor corriendo en http://localhost:${PORT}");
+=======
+require("./database/db");
+const express = require("express");
+const app = express();
+const categoriasRoutes = require("./routes/categorias");
+const platosRoutes = require("./routes/platos");
+
+app.use(express.json());
+
+// rutas
+app.use("/categorias", categoriasRoutes);
+app.use("/platos", platosRoutes);
+
+app.listen(3000, () => {
+  console.log("Servidor corriendo en http://localhost:3000");
+>>>>>>> cd9cc171380fd7b39249f7ffaeb2a3b99e24a1f2
 });
